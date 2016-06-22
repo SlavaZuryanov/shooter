@@ -1,14 +1,52 @@
-canvas{
-    position: absolute;
-    top: 0;
-    right: 0;
-    left: 0;
-    bottom: 0;
-    margin: auto;
-    cursor: none;
-}
-
 body{
     background: url("http://66.media.tumblr.com/fd53be2393a52f5b94d82001a02f0238/tumblr_mro3auqWX91rz7r1io6_1280.jpg") no-repeat;
     background-size: cover;
+    font-family: Arial;
+    letter-spacing: .05em;
+}
+
+canvas{
+    cursor: none;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 80px;
+    margin: auto;
+    border: 2px solid #ffffff;
+}
+
+.content{
+    width: 1200px;
+    position: relative;
+    margin: auto;
+}
+
+.timer, .points{
+    color: #ffffff;
+    font-size: 34px;
+    display: inline-block;
+    line-height: 60px;
+}
+
+.points{
+    float: right;
+}
+
+.start{
+    width: 120px;
+    background-color: #ff0000;
+    line-height: 50px;
+    text-align: center;
+    position: absolute;
+    top: 5px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    color: #ffffff;
+    transition: .3s;
+    cursor: pointer;
+}
+
+.start:hover{
+    background-color: rgba(255, 0, 0, .7);
 }

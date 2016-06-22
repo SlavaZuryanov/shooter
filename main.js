@@ -15,10 +15,18 @@ var r=100;
 var lineWidth = 5;
 
 function init() {
-    drawScope();
-    grid();
+    initScope();
+    initScore();
+    startGame();
+    //grid();
 }
 
+function startGame() {
+    $(".start").click(function(){
+        initTarget();
+        initTimer();
+    });
+}
 
 function grid() {
     ctx.fillStyle = "white";
@@ -32,7 +40,7 @@ function grid() {
     }
 }
 
-function drawScope() {
+function initScope() {
 
     canvas.addEventListener('mousemove', function(evt) {
         var mousePos = getMousePos(canvas, evt);
@@ -40,16 +48,11 @@ function drawScope() {
         x=mousePos.x-r;
         y=mousePos.y-r;
 
-        console.log("X="+x+" Y="+y);
-
-        // Store the current transformation matrix
         ctx.save();
 
-// Use the identity matrix while clearing the canvas
         ctx.setTransform(1, 0, 0, 1, 0, 0);
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-// Restore the transform
         ctx.restore();
 
         ctx.lineWidth = lineWidth;
@@ -72,8 +75,37 @@ function drawScope() {
 
     }, false);
 
+}
 
+function initTarget() {
+    $(".start").click(function(){
+        var targetX = Math.floor((Math.random() * canvas.width-canvas.width/5) + canvas.width/5);
+        var targetY = Math.floor((Math.random() * canvas.height-canvas.height/5) + canvas.height/5);
+        console.log("AimX="+targetX+" AimY="+targetY);
+    });
+}
 
+function initTimer() {
+
+    var timeLeft = 3;
+
+    var timer = setInterval(function(){
+        $(".timer span").html(timeLeft--);
+
+        if(timeLeft===-1){
+            clearInterval(timer);
+            $(".timer span").html("Time's up!");
+        }
+
+    }, 1000);
+
+}
+
+function initScore() {
+
+    var points=0;
+
+    $(".points span").html(points);
 }
 
 init();
