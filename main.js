@@ -24,7 +24,7 @@ function init() {
 function startGame() {
     $(".start").click(function(){
         initTarget();
-        initTimer();
+        initGameTimer();
     });
 }
 
@@ -79,21 +79,41 @@ function initScope() {
 
 function initTarget() {
 
-    function getRandomInt(min, max) {
-        return Math.floor(Math.random() * (max - min)) + min;
-    }
+    var timer = setInterval(function(){
 
-    var targetX = getRandomInt(r, canvas.width - r);
-    var targetY = getRandomInt(r, canvas.height - r);
-    console.log("AimX="+targetX+" AimY="+targetY);
+        /*RANDOMIZING START*/
 
-    ctx.beginPath();
-    ctx.fillStyle = "white";
-    ctx.fillRect(targetX, targetY, 20, 20);
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min)) + min;
+        }
+
+        var targetX = getRandomInt(r, canvas.width - r);
+        var targetY = getRandomInt(r, canvas.height - r);
+
+        var targetColor = {
+            red: getRandomInt(0, 256),
+            green: getRandomInt(0, 256),
+            blue: getRandomInt(0, 256)
+        };
+
+        var targetTimeAppear = getRandomInt(500,3000);
+
+        /*RANDOMIZING END*/
+
+        ctx.beginPath();
+        ctx.fillStyle = "rgb("+targetColor.red+","+targetColor.green+","+targetColor.blue+")";
+        ctx.fillRect(targetX, targetY, 20, 20);
+
+        if($(".timer span")===1){
+            clearInterval(timer);
+            $(".timer span").html("Time's up!");
+        }
+
+    }, targetTimeAppear);
 
 }
 
-function initTimer() {
+function initGameTimer() {
 
     var timeLeft = 3;
 
