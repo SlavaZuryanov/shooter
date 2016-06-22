@@ -1,0 +1,14 @@
+canvas{
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    margin: auto;
+    cursor: none;
+}
+
+body{
+    background: url("http://66.media.tumblr.com/fd53be2393a52f5b94d82001a02f0238/tumblr_mro3auqWX91rz7r1io6_1280.jpg") no-repeat;
+    background-size: cover;
+}
