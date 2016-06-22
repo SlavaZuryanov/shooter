@@ -78,11 +78,19 @@ function initScope() {
 }
 
 function initTarget() {
-    $(".start").click(function(){
-        var targetX = Math.floor((Math.random() * canvas.width-canvas.width/5) + canvas.width/5);
-        var targetY = Math.floor((Math.random() * canvas.height-canvas.height/5) + canvas.height/5);
-        console.log("AimX="+targetX+" AimY="+targetY);
-    });
+
+    function getRandomInt(min, max) {
+        return Math.floor(Math.random() * (max - min)) + min;
+    }
+
+    var targetX = getRandomInt(r, canvas.width - r);
+    var targetY = getRandomInt(r, canvas.height - r);
+    console.log("AimX="+targetX+" AimY="+targetY);
+
+    ctx.beginPath();
+    ctx.fillStyle = "white";
+    ctx.fillRect(targetX, targetY, 20, 20);
+
 }
 
 function initTimer() {
