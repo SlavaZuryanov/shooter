@@ -6,38 +6,61 @@ function getMousePos(canvas, evt) {
     };
 }
 
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min)) + min;
+}
+
+function inRange(x, min, max) {
+    return x >= min && x <= max;
+}
+
 var canvas = document.getElementById("canvas"),
     ctx = canvas.getContext('2d');
 
-var x=0;
-var y=0;
-var r=100;
-var lineWidth = 5;
+var canvasTargetArea = document.getElementById("target-area"),
+    ctxTA = canvasTargetArea.getContext('2d');
+
+var x = 0,
+    y = 0,
+    r =100,
+    lineWidth = 5;
+
+var timeLeft = 3,
+    points = 1;
+
+var targetX,
+    targetY,
+    targetW = 20,
+    targetH = 20,
+    targetColor = {
+    red: 0,
+    green: 0,
+    blue: 0
+};
+
+var mousePosX,
+    mousePosY;
 
 function init() {
     initScope();
     initScore();
     startGame();
-    //grid();
 }
 
 function startGame() {
     $(".start").click(function(){
-        initTarget();
         initGameTimer();
+        initTarget();
+        targetClick();
     });
 }
 
-function grid() {
-    ctx.fillStyle = "white";
-    var gridCols = 50;
-    var gridRows = 50;
-    for(var i=0; i<gridCols; i++){
-        ctx.fillRect(canvas.width/gridCols*i, 0, 1, canvas.height);
-    }
-    for(var j=0; j<gridRows; j++){
-        ctx.fillRect(0, canvas.height/gridRows*j, canvas.width, 1);
-    }
+function getMousePos(canvasTargetArea, evt) {
+    var rect = canvasTargetArea.getBoundingClientRect();
+    return {
+        x: evt.clientX - rect.left,
+        y: evt.clientY - rect.top
+    };
 }
 
 function initScope() {
@@ -79,43 +102,40 @@ function initScope() {
 
 function initTarget() {
 
-    var timer = setInterval(function(){
+    targetX = getRandomInt(r, canvas.width - r);
+    targetY = getRandomInt(r, canvas.height - r);
 
-        /*RANDOMIZING START*/
+    targetColor = {
+        red: getRandomInt(0, 256),
+        green: getRandomInt(0, 256),
+        blue: getRandomInt(0, 256)
+    };
 
-        function getRandomInt(min, max) {
-            return Math.floor(Math.random() * (max - min)) + min;
-        }
-
-        var targetX = getRandomInt(r, canvas.width - r);
-        var targetY = getRandomInt(r, canvas.height - r);
-
-        var targetColor = {
-            red: getRandomInt(0, 256),
-            green: getRandomInt(0, 256),
-            blue: getRandomInt(0, 256)
-        };
-
-        var targetTimeAppear = getRandomInt(500,3000);
-
-        /*RANDOMIZING END*/
-
-        ctx.beginPath();
-        ctx.fillStyle = "rgb("+targetColor.red+","+targetColor.green+","+targetColor.blue+")";
-        ctx.fillRect(targetX, targetY, 20, 20);
-
-        if($(".timer span")===1){
-            clearInterval(timer);
-            $(".timer span").html("Time's up!");
-        }
-
-    }, targetTimeAppear);
+    ctxTA.clearRect(0, 0, canvas.width, canvas.height);
+    ctxTA.beginPath();
+    ctxTA.fillStyle = "rgb("+targetColor.red+","+targetColor.green+","+targetColor.blue+")";
+    ctxTA.fillRect(targetX, targetY, targetW, targetH);
 
 }
 
-function initGameTimer() {
+function targetClick() {
+    canvas.addEventListener('click', function(e){
+        var pos = getMousePos(canvasTargetArea, e);
+        mousePosX = pos.x;
+        mousePosY = pos.y;
 
-    var timeLeft = 3;
+        if(inRange(mousePosX, targetX, targetX+targetW) && inRange(mousePosY, targetY, targetY+targetH)) {
+            $(".points span").html(points++);
+            initTarget();
+        } else {
+            return;
+        }
+
+
+    });
+}
+
+function initGameTimer() {
 
     var timer = setInterval(function(){
         $(".timer span").html(timeLeft--);
@@ -123,6 +143,8 @@ function initGameTimer() {
         if(timeLeft===-1){
             clearInterval(timer);
             $(".timer span").html("Time's up!");
+            $(".points span").html("0");
+            console.log(points-1);
         }
 
     }, 1000);
