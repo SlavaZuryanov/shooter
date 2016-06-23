@@ -25,7 +25,7 @@ var x = 0,
     r =100,
     lineWidth = 5;
 
-var timeLeft = 60,
+var timeLeft = 3,
     points = 1;
 
 var targetX,
@@ -40,8 +40,6 @@ var targetX,
 
 var mousePosX,
     mousePosY;
-
-$(".timer span").html(timeLeft);
 
 function init() {
     initScope();
@@ -60,8 +58,8 @@ function getMousePos(canvasTargetArea, evt) {
 function startGame() {
     $(".start").click(function(){
         points = 1;
+
         $(".points span").html("0");
-        $(".timer span").html(timeLeft-1);
 
         initGameTimer();
         initTarget();
@@ -125,6 +123,7 @@ function initTarget() {
 }
 
 function targetClick() {
+
     canvas.addEventListener('click', function(e){
         var pos = getMousePos(canvasTargetArea, e);
         mousePosX = pos.x;
@@ -137,11 +136,12 @@ function targetClick() {
             return;
         }
 
-
     });
+
 }
 
 function initGameTimer() {
+    timeLeft = 3;
 
     var timer = setInterval(function(){
         $(".timer span").html(timeLeft--);
@@ -152,7 +152,6 @@ function initGameTimer() {
             $(".points span").html("0");
             points--;
             console.log("U got "+points+" points!");
-            targetClick(false);
         }
 
     }, 1000);
