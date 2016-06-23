@@ -25,7 +25,7 @@ var x = 0,
     r =100,
     lineWidth = 5;
 
-var timeLeft = 3,
+var timeLeft = 60,
     points = 1;
 
 var targetX,
@@ -41,18 +41,12 @@ var targetX,
 var mousePosX,
     mousePosY;
 
+$(".timer span").html(timeLeft);
+
 function init() {
     initScope();
     initScore();
     startGame();
-}
-
-function startGame() {
-    $(".start").click(function(){
-        initGameTimer();
-        initTarget();
-        targetClick();
-    });
 }
 
 function getMousePos(canvasTargetArea, evt) {
@@ -61,6 +55,18 @@ function getMousePos(canvasTargetArea, evt) {
         x: evt.clientX - rect.left,
         y: evt.clientY - rect.top
     };
+}
+
+function startGame() {
+    $(".start").click(function(){
+        points = 1;
+        $(".points span").html("0");
+        $(".timer span").html(timeLeft-1);
+
+        initGameTimer();
+        initTarget();
+        targetClick();
+    });
 }
 
 function initScope() {
@@ -144,7 +150,9 @@ function initGameTimer() {
             clearInterval(timer);
             $(".timer span").html("Time's up!");
             $(".points span").html("0");
-            console.log(points-1);
+            points--;
+            console.log("U got "+points+" points!");
+            targetClick(false);
         }
 
     }, 1000);
