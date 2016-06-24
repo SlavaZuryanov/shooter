@@ -25,7 +25,7 @@ var x = 0,
     r =100,
     lineWidth = 5;
 
-var timeLeft = 3,
+var timeLeft = 30,
     points = 1;
 
 var targetX,
@@ -60,10 +60,11 @@ function startGame() {
         points = 1;
 
         $(".points span").html("0");
-
         initGameTimer();
         initTarget();
         targetClick();
+
+        $(this).addClass("clicked");
     });
 }
 
@@ -141,17 +142,28 @@ function targetClick() {
 }
 
 function initGameTimer() {
-    timeLeft = 3;
+    $(".timer span").html("Go!");
 
     var timer = setInterval(function(){
         $(".timer span").html(timeLeft--);
 
         if(timeLeft===-1){
             clearInterval(timer);
+
             $(".timer span").html("Time's up!");
             $(".points span").html("0");
+
             points--;
-            console.log("U got "+points+" points!");
+            timeLeft = 30;
+
+            ctxTA.clearRect(0,0,canvas.width, canvas.height);
+
+            $(".score-popup").addClass("score-active");
+            $(".score-popup .score").html(points);
+            $(".close-score").click(function () {
+                $(".score-popup").removeClass("score-active");
+                $(".start").removeClass("clicked");
+            });
         }
 
     }, 1000);

@@ -54,3 +54,81 @@ canvas{
 .start:hover{
     background-color: rgba(255, 0, 0, .7);
 }
+
+.clicked{
+    background-color: #6a6a6a;
+    cursor: not-allowed;
+    top: -100%;
+}
+
+.score-popup{
+    font-size: 32px;
+    color: #ffffff;
+    background-color: #ff0000;
+    text-align: center;
+    width: 400px;
+    height: 200px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    margin: auto;
+    transition: .5s;
+    transform: scale(0);
+}
+
+.score-popup p{
+    margin-top: 1.5em;
+    margin-bottom: .5em;
+}
+
+.score-popup .score{
+    font-size: 60px;
+}
+
+.score-active{
+    transform: scale(1);
+}
+
+.close-score{
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    transition: transform .2s;
+}
+
+.close-score:hover{
+    transform: rotate(90deg);
+}
+
+.close-score:before{
+    content: "";
+    width: 2px;
+    height: 20px;
+    background-color: #ffffff;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    margin: auto;
+    transform: rotate(45deg);
+}
+
+.close-score:after{
+    content: "";
+    width: 2px;
+    height: 20px;
+    background-color: #ffffff;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    margin: auto;
+    transform: rotate(-45deg);
+}
